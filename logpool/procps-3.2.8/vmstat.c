@@ -66,7 +66,7 @@ static unsigned int moreheaders=TRUE;
 
 static void usage(void) NORETURN;
 static void usage(void) {
-	fprintf(stderr,"usage: vmstat [-V] [-n] [--stdout=<output>] [delay [count]]\n");
+	fprintf(stderr,"usage: vmstat [-V] [-n] [--stdout=<output>] [--prefix=<prefix>] [delay [count]]\n");
 	fprintf(stderr,"              -V prints version.\n");
 	fprintf(stderr,"              -n causes the headers not to be reprinted regularly.\n");
 	fprintf(stderr,"              -a print inactive/active page stats.\n");
@@ -77,6 +77,7 @@ static void usage(void) {
 	fprintf(stderr,"              -m prints slabinfo\n");
 	fprintf(stderr,"              -S unit size\n");
 	fprintf(stderr,"              --stdout=<output> select output\n");
+	fprintf(stderr,"              --prefix=<prefix> define logpool key's prefix\n");
 	fprintf(stderr,"              syslog, file, memcached (default is stdout)\n");
 	fprintf(stderr,"              delay is the delay between updates in seconds. \n");
 	fprintf(stderr,"              unit size k:1000 K:1024 m:1000000 M:1048576 (default is K)\n");
@@ -179,7 +180,7 @@ static void new_header(void){
 			"us","sy","id","wa"
 			);
 	for(; counter < 2; counter++) {
-		ltrace_record(ltrace, "vmstat",
+		ltrace_record(ltrace, prefix,
 				LOG_s("", line[counter]),
 				LOG_END
 				);
@@ -262,7 +263,7 @@ static void new_format(void) {
 			(unsigned)( (100*diow                    + divo2) / Div ) /* ,
 																																	 (unsigned)( (100*dstl                    + divo2) / Div ) */
 			);
-	ltrace_record(ltrace, "vmstat",
+	ltrace_record(ltrace, prefix,
 			LOG_s("", line[0]),
 			LOG_END
 			);
@@ -332,7 +333,7 @@ static void new_format(void) {
 				(unsigned)( (100*diow+divo2)/Div )/*, //wa
 																						(unsigned)( (100*dstl+divo2)/Div )  //st  */
 				);
-		ltrace_record(ltrace, "vmstat",
+		ltrace_record(ltrace, prefix,
 				LOG_s("", line[1]);
 				LOG_END
 				);
@@ -343,13 +344,9 @@ static void new_format(void) {
 
 static void diskpartition_header(const char *partition_name){
 //	printf("%-10s %10s %10s %10s %10s\n",partition_name, "reads  ", "read sectors", "writes   ", "requested writes");
-//	ltrace_record(ltrace, "vmstat",
-//			LOG_s("", line),
-//			LOG_END
-//			);
 	char line[LINELEN];
 	snprintf(line, LINELEN, "%-10s %10s %10s %10s %10s\n",partition_name, "reads  ", "read sectors", "writes   ", "requested writes");
-	ltrace_record(ltrace, "vmstat",
+	ltrace_record(ltrace, prefix,
 			LOG_s("", line),
 			LOG_END
 			);
@@ -387,7 +384,7 @@ static int diskpartition_format(const char* partition_name){
 //			current_partition->reads,current_partition->reads_sectors,current_partition->writes,current_partition->requested_writes);
 	snprintf (line[0], LINELEN, format,
 			current_partition->reads,current_partition->reads_sectors,current_partition->writes,current_partition->requested_writes);
-	ltrace_record(ltrace, "vmstat",
+	ltrace_record(ltrace, prefix,
 			LOG_s("", line[0]),
 			LOG_END
 			);
@@ -412,7 +409,7 @@ static int diskpartition_format(const char* partition_name){
 //				current_partition->reads,current_partition->reads_sectors,current_partition->writes,current_partition->requested_writes);
 		snprintf (line[1], LINELEN, format,
 				current_partition->reads,current_partition->reads_sectors,current_partition->writes,current_partition->requested_writes);
-		ltrace_record(ltrace, "vmstat",
+		ltrace_record(ltrace, prefix,
 				LOG_s("", line[1]),
 				LOG_END
 				);
@@ -429,7 +426,7 @@ static void diskheader(void){
 	//	printf("disk- ------------reads------------ ------------writes----------- -----IO------\n");
 	char line[2][LINELEN];
 	snprintf(line[0], LINELEN, "disk- ------------reads------------ ------------writes----------- -----IO------\n");
-	ltrace_record(ltrace, "vmstat",
+	ltrace_record(ltrace, prefix,
 			LOG_s("", line[0]),
 			LOG_END
 			);
@@ -437,7 +434,7 @@ static void diskheader(void){
 //			" ", "total", "merged","sectors","ms","total","merged","sectors","ms","cur","sec");
 	snprintf(line[1], LINELEN, "%5s %6s %6s %7s %7s %6s %6s %7s %7s %6s %6s\n",
 			" ", "total", "merged","sectors","ms","total","merged","sectors","ms","cur","sec");
-	ltrace_record(ltrace, "vmstat",
+	ltrace_record(ltrace, prefix,
 			LOG_s("", line[1]),
 			LOG_END
 			);
@@ -485,7 +482,7 @@ static void diskformat(void){
 					disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0/*,
 																																	disks[i].weighted_milli_spent_IO/1000*/
 					);
-			ltrace_record(ltrace, "vmstat",
+			ltrace_record(ltrace, prefix,
 					LOG_s("", line[0]),
 					LOG_END
 					);
@@ -526,7 +523,7 @@ static void diskformat(void){
 						disks[i].milli_spent_IO?disks[i].milli_spent_IO/1000:0/*,
 																																		disks[i].weighted_milli_spent_IO/1000*/
 						);
-				ltrace_record(ltrace, "vmstat",
+				ltrace_record(ltrace, prefix,
 						LOG_s("", line[1]),
 						LOG_END
 						);
@@ -547,7 +544,7 @@ static void slabheader(void){
 //	printf("%-24s %6s %6s %6s %6s\n","Cache","Num", "Total", "Size", "Pages");
 	char line[LINELEN];
 	snprintf(line, LINELEN, "%-24s %6s %6s %6s %6s\n","Cache","Num", "Total", "Size", "Pages");
-	ltrace_record(ltrace, "vmstat",
+	ltrace_record(ltrace, prefix,
 			LOG_s("", line),
 			LOG_END
 			);
@@ -584,7 +581,7 @@ static void slabformat (void){
 				slabs[k].objsize,
 				slabs[k].objperslab
 				);
-		ltrace_record(ltrace, "vmstat",
+		ltrace_record(ltrace, prefix,
 				LOG_s("", line[0]),
 				LOG_END
 				);
@@ -609,7 +606,7 @@ static void slabformat (void){
 					slabs[i].objsize,
 					slabs[i].objperslab
 					);
-			ltrace_record(ltrace, "vmstat",
+			ltrace_record(ltrace, prefix,
 					LOG_s("", line[1]),
 					LOG_END
 					);
@@ -677,7 +674,7 @@ static void disksum_format(void) {
 		snprintf(line[9], LINELEN, "%13lu inprogress IO\n",inprogress_IO);
 		snprintf(line[10], LINELEN, "%13lu milli spent IO\n",milli_spent_IO);
 		for(; counter < 11; counter++) {
-			ltrace_record(ltrace, "vmstat",
+			ltrace_record(ltrace, prefix,
 					LOG_s("", line[counter]),
 					LOG_END
 					);
@@ -760,7 +757,7 @@ static void sum_format(void) {
 	snprintf(line[24], LINELEN, "%13u boot time\n", btime);
 	snprintf(line[25], LINELEN, "%13u forks\n", processes);
 	for(; counter < 26; counter++) {
-		ltrace_record(ltrace, "vmstat",
+		ltrace_record(ltrace, prefix,
 				LOG_s("", line[counter]),
 				LOG_END
 				);
@@ -785,7 +782,7 @@ static void fork_format(void) {
 
 //	printf("%13u forks\n", processes);
 	snprintf(line, LINELEN, "%13u forks\n", processes);
-	ltrace_record(ltrace, "vmstat",
+	ltrace_record(ltrace, prefix,
 			LOG_s("", line),
 			LOG_END
 			);
@@ -812,7 +809,7 @@ int main(int argc, char *argv[]) {
 		if ('-' ==(**argv)) {
 			switch (*(++(*argv))) {
 				case '-':
-					select_stdout(*argv);
+					if(configure_output(*argv)) usage();
 					break;
 				case 'V':
 					display_version();
@@ -892,7 +889,7 @@ int main(int argc, char *argv[]) {
 			} /* switch */
 		}
 	}
-	select_stdout(NULL);
+	configure_output(NULL);
 	if (moreheaders) {
 		int tmp=winhi()-3;
 		height=((tmp>0)?tmp:22);

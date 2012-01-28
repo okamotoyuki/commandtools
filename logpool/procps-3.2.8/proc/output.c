@@ -1,6 +1,11 @@
 // using for logpool
 
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include "output.h"
+
+ltrace_t *ltrace;
 
 extern logapi_t STRING_API;
 static void *STRING_API_PARAM[] = {(void *) 1024};
@@ -19,29 +24,59 @@ static void *MEMCACHE_API_PARAM[] = {
 	(void *) 11211L
 };
 
-ltrace_t *ltrace;
+char prefix[MAX_PREFIX_LEN];
 
-void select_stdout(char *arg) {   // using for logpool
+#define MAX_PID_LEN 5
+#define MAX_HOSTNAME_LEN 26   // MAX_PREFIX_LEN - MAX_PID_LEN - 1
+
+static void make_prefix(void) {
+	char *env;
+
+	if((env = getenv("LOGPOOL_PREFIX")) != NULL) {
+		memcpy(prefix, env, strlen(env));
+		return;
+	}
+
+	char hostname[MAX_HOSTNAME_LEN];
+	int pid = (int)getpid();
+	gethostname(hostname, MAX_HOSTNAME_LEN);
+	snprintf(prefix, MAX_PREFIX_LEN, "%s+%d", hostname, pid);
+	return;
+}
+
+int configure_output(char *arg) {   // using for logpool
+	static int prefix_flag = 1;
+
 	logpool_init(LOGPOOL_DEFAULT);
+
 	if(arg == NULL) {
 		if(ltrace == NULL) ltrace = ltrace_open(NULL, &STRING_API, STRING_API_PARAM);
+		if(prefix_flag) make_prefix();
+		prefix_flag = 0;
 	}
 	else {
-		char opt_syslog[] = "-stdout=syslog";
-		char opt_file[] = "-stdout=file";
-		char opt_memcached[] = "-stdout=memcached";
+		char stdout_syslog[] = "-stdout=syslog";
+		char stdout_file[] = "-stdout=file";
+		char stdout_memcached[] = "-stdout=memcached";
+		char opt_prefix[] = "-prefix=";
 
-		if(strncmp(arg, opt_syslog, strlen(opt_syslog)) == 0) {
+		if(strncmp(arg, stdout_syslog, strlen(stdout_syslog)) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &SYSLOG_API, SYSLOG_API_PARAM);
 		}
-		else if(strncmp(arg, opt_file, strlen(opt_file)) == 0) {
+		else if(strncmp(arg, stdout_file, strlen(stdout_file)) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &FILE_API, FILE_API_PARAM);
 		}
-		else if(strncmp(arg, opt_memcached, strlen(opt_memcached)) == 0) {
+		else if(strncmp(arg, stdout_memcached, strlen(stdout_memcached)) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &MEMCACHE_API, MEMCACHE_API_PARAM);
 		}
+		else if(strncmp(arg, opt_prefix, strlen(opt_prefix)) == 0) {
+			arg += 8;
+			if(prefix_flag) memcpy(prefix, arg, strlen(arg));
+			prefix_flag = 0;
+		}
 		else {
-			if(ltrace == NULL) ltrace = ltrace_open(NULL, &STRING_API, STRING_API_PARAM);
+			return 1;
 		}
 	}
+	return 0;
 }

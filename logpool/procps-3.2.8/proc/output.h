@@ -2,6 +2,9 @@
 
 #include <logpool.h>
 
-extern ltrace_t *ltrace;
+#define MAX_PREFIX_LEN 32
 
-extern void select_stdout(char *arg);
+extern ltrace_t *ltrace;
+extern char prefix[MAX_PREFIX_LEN];
+
+extern int configure_output(char *arg);
