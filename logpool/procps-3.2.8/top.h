@@ -19,6 +19,8 @@
 //
 // Changes by Albert Cahalan, 2002, 2004.
 
+#include "proc/output.h"   // using for logpool
+
 #ifndef _Itop
 #define _Itop
 
@@ -119,6 +121,7 @@
 #define PUTT(fmt,arg...) do { \
 	char _str[ROWBUFSIZ]; \
 	snprintf(_str, sizeof(_str), fmt, ## arg); \
+	L_RECORD(LOG_s("", _str), LOG_END); \
 	putp(_str); \
 } while (0)
 
@@ -133,12 +136,16 @@
 	do {                                                     \
 		char _str[ROWBUFSIZ];                                   \
 		int _len = 1 + snprintf(_str, sizeof(_str), fmt, ## arg);   \
-		putp ( Batch ? _str :                                   \
-				({                                                 \
-				 char *restrict const _pse = &Pseudo_scrn[Pseudo_row++ * Pseudo_cols];  \
-				 memcmp(_pse, _str, _len) ? memcpy(_pse, _str, _len) : "\n";  \
-				 })                                \
-			 );                   \
+		L_RECORD( \
+				LOG_s("", Batch ? _str : \
+					({                                                 \
+					 char *restrict const _pse = &Pseudo_scrn[Pseudo_row++ * Pseudo_cols];  \
+					 memcmp(_pse, _str, _len) ? memcpy(_pse, _str, _len) : "\n";  \
+					 })                                \
+					), \
+				LOG_END \
+				); \
+		putp(_str); \
 	} while (0)
 
 // The good version  (53876 byte stripped top)
