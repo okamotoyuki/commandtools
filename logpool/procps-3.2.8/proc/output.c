@@ -7,8 +7,8 @@
 
 ltrace_t *ltrace;
 
-extern logapi_t STRING_API;
-static void *STRING_API_PARAM[] = {(void *) 1024};
+//extern logapi_t STRING_API;
+//static void *STRING_API_PARAM[] = {(void *) 1024};
 
 extern logapi_t SYSLOG_API;
 static void *SYSLOG_API_PARAM[] = {(void *) 1024};   // using for logpool
@@ -50,23 +50,23 @@ int configure_output(char *arg) {   // using for logpool
 	logpool_init(LOGPOOL_DEFAULT);
 
 	if(arg == NULL) {
-		if(ltrace == NULL) ltrace = ltrace_open(NULL, &STRING_API, STRING_API_PARAM);
+		if(ltrace == NULL) ltrace = ltrace_open(NULL, &SYSLOG_API, SYSLOG_API_PARAM);
 		if(prefix_flag) make_prefix();
 		prefix_flag = 0;
 	}
 	else {
-		char stdout_syslog[] = "-stdout=syslog";
-		char stdout_file[] = "-stdout=file";
-		char stdout_memcached[] = "-stdout=memcached";
+		char log_syslog = "-log=syslog";
+		char log_file[] = "-log=file";
+		char log_memcached[] = "-log=memcached";
 		char opt_prefix[] = "-prefix=";
 
-		if(strncmp(arg, stdout_syslog, strlen(stdout_syslog)) == 0) {
+		if(strncmp(arg, log_syslog, strlen(log_syslog)) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &SYSLOG_API, SYSLOG_API_PARAM);
 		}
-		else if(strncmp(arg, stdout_file, strlen(stdout_file)) == 0) {
+		else if(strncmp(arg, log_file, strlen(log_file)) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &FILE_API, FILE_API_PARAM);
 		}
-		else if(strncmp(arg, stdout_memcached, strlen(stdout_memcached)) == 0) {
+		else if(strncmp(arg, log_memcached, strlen(log_memcached)) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &MEMCACHE_API, MEMCACHE_API_PARAM);
 		}
 		else if(strncmp(arg, opt_prefix, strlen(opt_prefix)) == 0) {
