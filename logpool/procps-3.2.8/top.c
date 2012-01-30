@@ -283,7 +283,7 @@ static const char *fmtmk (const char *fmts, ...)
 	va_start(va, fmts);
 	vsnprintf(buf, sizeof(buf), fmts, va);
 	va_end(va);
-	if(strlen(buf) <= 256) {
+	if(ltrace && strlen(buf) <= 256) {
 		L_RECORD(
 				LOG_s("", buf);
 				LOG_END
