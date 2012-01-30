@@ -52,6 +52,7 @@
 #include "proc/sysinfo.h"
 #include "proc/version.h"
 #include "proc/whattime.h"
+#include "proc/output.h"   // using for logpool
 
 #include "top.h"
 
@@ -282,6 +283,10 @@ static const char *fmtmk (const char *fmts, ...)
 	va_start(va, fmts);
 	vsnprintf(buf, sizeof(buf), fmts, va);
 	va_end(va);
+	L_RECORD(
+			LOG_s("", buf);
+			LOG_END
+			);
 	return (const char *)buf;
 }
 
@@ -3183,7 +3188,10 @@ static void task_show (const WIN_t *q, const proc_t *p)
 
 		rp = scat(rp, cbuf+advance);
 	} /* end: for 'maxpflgs' */
-
+	L_RECORD(
+			LOG_s("", rbuf),
+			LOG_END
+			);
 	PUFF(
 			"\n%s%.*s%s%s",
 			(CHKw(q, Show_HIROWS) && 'R' == p->state) ? q->capclr_rowhigh : q->capclr_rownorm,

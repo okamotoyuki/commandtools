@@ -44,7 +44,12 @@ static void make_prefix(void) {
 	return;
 }
 
-int configure_output(char *arg) {   // using for logpool
+#define OPT_LOG_SYSLOG_LEN 11
+#define OPT_LOG_FILE_LEN 9
+#define OPT_LOG_MEMCACHED_LEN 14
+#define OPT_PREFIX_LEN 8
+
+int configure_output(char *arg) {
 	static int prefix_flag = 1;
 
 	logpool_init(LOGPOOL_DEFAULT);
@@ -55,21 +60,21 @@ int configure_output(char *arg) {   // using for logpool
 		prefix_flag = 0;
 	}
 	else {
-		char log_syslog = "-log=syslog";
-		char log_file[] = "-log=file";
-		char log_memcached[] = "-log=memcached";
+		char opt_log_syslog[] = "-log=syslog";
+		char opt_log_file[] = "-log=file";
+		char opt_log_memcached[] = "-log=memcached";
 		char opt_prefix[] = "-prefix=";
 
-		if(strncmp(arg, log_syslog, strlen(log_syslog)) == 0) {
+		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &SYSLOG_API, SYSLOG_API_PARAM);
 		}
-		else if(strncmp(arg, log_file, strlen(log_file)) == 0) {
+		else if(strncmp(arg, opt_log_file, OPT_LOG_FILE_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &FILE_API, FILE_API_PARAM);
 		}
-		else if(strncmp(arg, log_memcached, strlen(log_memcached)) == 0) {
+		else if(strncmp(arg, opt_log_memcached, OPT_LOG_MEMCACHED_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open(NULL, &MEMCACHE_API, MEMCACHE_API_PARAM);
 		}
-		else if(strncmp(arg, opt_prefix, strlen(opt_prefix)) == 0) {
+		else if(strncmp(arg, opt_prefix, OPT_PREFIX_LEN) == 0) {
 			arg += 8;
 			if(prefix_flag) memcpy(prefix, arg, strlen(arg));
 			prefix_flag = 0;
