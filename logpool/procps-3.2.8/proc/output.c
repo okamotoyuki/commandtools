@@ -7,23 +7,6 @@
 
 ltrace_t *ltrace;
 
-//extern logapi_t STRING_API;
-//static void *STRING_API_PARAM[] = {(void *) 1024};
-
-extern logapi_t SYSLOG_API;
-static void *SYSLOG_API_PARAM[] = {(void *) 1024};   // using for logpool
-
-#define FILE_API FILE2_API
-extern logapi_t FILE_API;
-static void *FILE_API_PARAM[] = {(void *) 1024, (void *) "LOG"};
-
-extern logapi_t MEMCACHE_API;
-static void *MEMCACHE_API_PARAM[] = {
-	(void *) 1024,
-	(void *) "localhost",
-	(void *) 11211L
-};
-
 char prefix[MAX_PREFIX_LEN];
 
 #define MAX_PID_LEN 5
@@ -55,7 +38,7 @@ int configure_output(char *arg) {
 	logpool_init(LOGPOOL_DEFAULT);
 
 	if(arg == NULL) {
-		if(ltrace == NULL) ltrace = ltrace_open(NULL, &SYSLOG_API, SYSLOG_API_PARAM);
+		if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
 		if(prefix_flag) make_prefix();
 		prefix_flag = 0;
 	}
@@ -66,13 +49,13 @@ int configure_output(char *arg) {
 		char opt_prefix[] = "-prefix=";
 
 		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open(NULL, &SYSLOG_API, SYSLOG_API_PARAM);
+			if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
 		}
 		else if(strncmp(arg, opt_log_file, OPT_LOG_FILE_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open(NULL, &FILE_API, FILE_API_PARAM);
+			if(ltrace == NULL) ltrace = ltrace_open_file(NULL, "LOG");
 		}
 		else if(strncmp(arg, opt_log_memcached, OPT_LOG_MEMCACHED_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open(NULL, &MEMCACHE_API, MEMCACHE_API_PARAM);
+			if(ltrace == NULL) ltrace = ltrace_open_memcache(NULL, "localhost", 11211);
 		}
 		else if(strncmp(arg, opt_prefix, OPT_PREFIX_LEN) == 0) {
 			arg += 8;
