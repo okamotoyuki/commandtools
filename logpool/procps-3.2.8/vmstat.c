@@ -640,7 +640,6 @@ static void sum_format(void) {
 	  &running, &blocked,
 	  &btime, &processes);
   L_RECORD(
-		LOG_s(
 		LOG_i("total memory", unitConvert(kb_main_total)),
 		LOG_i("used memory", unitConvert(kb_main_used)),
 		LOG_i("active memory", unitConvert(kb_active)),
