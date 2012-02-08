@@ -52,7 +52,6 @@
 #include "proc/sysinfo.h"
 #include "proc/version.h"
 #include "proc/whattime.h"
-#include "proc/output.h"   // using for logpool
 
 #include "top.h"
 
@@ -283,12 +282,6 @@ static const char *fmtmk (const char *fmts, ...)
    va_start(va, fmts);
    vsnprintf(buf, sizeof(buf), fmts, va);
    va_end(va);
-	if(ltrace && strlen(buf) <= 256) {
-		L_RECORD(
-				LOG_s("", buf);
-				LOG_END
-				);
-	}
    return (const char *)buf;
 }
 
@@ -1830,13 +1823,6 @@ static void parse_args (char **args)
          switch (*cp) {
             case '\0':
             case '-':
-					if(*(cp++) == '-') {
-						if(configure_output(cp)) {
-							cp++;
-							std_err(fmtmk("unknown argument '%s'\nusage:\t%s%s", cp, Myname, usage));
-						}
-						cp = NULL;
-					}
                break;
             case 'b':
                Batch = 1;
@@ -1927,11 +1913,10 @@ static void parse_args (char **args)
          } /* end: switch (*cp) */
 
             /* advance cp and jump over any numerical args used above */
-		 if(cp == NULL) break;
          if (*cp) cp += strspn(&cp[1], "- ,.1234567890") + 1;
       } /* end: while (*cp) */
    } /* end: while (*args) */
-	configure_output(NULL);
+
       /* fixup delay time, maybe... */
    if (MAXFLOAT != tmp_delay) {
       if (Secure_mode || tmp_delay < 0)
@@ -3190,10 +3175,7 @@ static void task_show (const WIN_t *q, const proc_t *p)
 
         rp = scat(rp, cbuf+advance);
    } /* end: for 'maxpflgs' */
-	L_RECORD(
-			LOG_s("", rbuf),
-			LOG_END
-			);
+
    PUFF(
       "\n%s%.*s%s%s",
       (CHKw(q, Show_HIROWS) && 'R' == p->state) ? q->capclr_rowhigh : q->capclr_rownorm,
