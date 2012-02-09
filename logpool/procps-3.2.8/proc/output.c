@@ -7,6 +7,30 @@
 
 ltrace_t *ltrace;
 
+static ltrace_t *ltrace_open_syslog_data32(ltrace_t *parent)
+{
+	struct logpool_param_syslog param = {32, 1024};
+	extern logapi_t SYSLOG_API;
+	return ltrace_open(parent, &SYSLOG_API, (logpool_param_t *) &param);
+}
+
+static ltrace_t *ltrace_open_file_data32(ltrace_t *parent, char *filename)
+{
+	struct logpool_param_file param = {32, 1024};
+	param.fname = (const char *) filename;
+	extern logapi_t FILE2_API;
+	return ltrace_open(parent, &FILE2_API,  (struct logpool_param*) &param);
+}
+
+static ltrace_t *ltrace_open_memcache_data32(ltrace_t *parent, char *host, long ip)
+{
+	struct logpool_param_memcache param = {32, 1024};
+	param.host = host;
+	param.port = ip;
+	extern logapi_t MEMCACHE_API;
+	return ltrace_open(parent, &MEMCACHE_API, (struct logpool_param*) &param);
+}
+
 char prefix[MAX_PREFIX_LEN];
 
 #define MAX_PID_LEN 5
@@ -38,7 +62,7 @@ int configure_output(char *arg) {
 	logpool_init(LOGPOOL_DEFAULT);
 
 	if(arg == NULL) {
-		if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
+		if(ltrace == NULL) ltrace = ltrace_open_syslog_data32(NULL);
 		if(prefix_flag) make_prefix();
 		prefix_flag = 0;
 	}
@@ -49,13 +73,13 @@ int configure_output(char *arg) {
 		char opt_prefix[] = "-prefix=";
 
 		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
+			if(ltrace == NULL) ltrace = ltrace_open_syslog_data32(NULL);
 		}
 		else if(strncmp(arg, opt_log_file, OPT_LOG_FILE_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_file(NULL, "LOG");
+			if(ltrace == NULL) ltrace = ltrace_open_file_data32(NULL, "LOG");
 		}
 		else if(strncmp(arg, opt_log_memcached, OPT_LOG_MEMCACHED_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_memcache(NULL, "localhost", 11211);
+			if(ltrace == NULL) ltrace = ltrace_open_memcache_data32(NULL, "localhost", 11211);
 		}
 		else if(strncmp(arg, opt_prefix, OPT_PREFIX_LEN) == 0) {
 			arg += 8;
