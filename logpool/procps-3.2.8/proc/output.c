@@ -7,7 +7,6 @@
 
 ltrace_t *ltrace;
 
-<<<<<<< HEAD
 static ltrace_t *ltrace_open_string_data32(ltrace_t *parent)
 {
 	struct logpool_param_string param = {32, 1024};
@@ -39,8 +38,6 @@ static ltrace_t *ltrace_open_memcache_data32(ltrace_t *parent, char *host, long 
 	return ltrace_open(parent, &MEMCACHE_API, (struct logpool_param*) &param);
 }
 
-=======
->>>>>>> parent of 8df165e... target liblogpool v0.5
 char prefix[MAX_PREFIX_LEN];
 
 #define MAX_PID_LEN 5
@@ -73,11 +70,9 @@ int configure_output(char *arg) {
 	logpool_init(LOGPOOL_DEFAULT);
 
 	if(arg == NULL) {
-<<<<<<< HEAD
 		if(ltrace == NULL) ltrace = ltrace_open_string_data32(NULL);
-=======
 		if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
->>>>>>> parent of 8df165e... target liblogpool v0.5
+		if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
 		if(prefix_flag) make_prefix();
 		prefix_flag = 0;
 	}
@@ -88,16 +83,15 @@ int configure_output(char *arg) {
 		char opt_log_memcached[] = "-log=memcached";
 		char opt_prefix[] = "-prefix=";
 
-<<<<<<< HEAD
 		if(strncmp(arg, opt_log_stderr, OPT_LOG_STDERR_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open_string_data32(NULL);
 		}
 		else if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open_syslog_data32(NULL);
-=======
 		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
->>>>>>> parent of 8df165e... target liblogpool v0.5
+		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
+			if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
 		}
 		else if(strncmp(arg, opt_log_file, OPT_LOG_FILE_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open_file(NULL, "LOG");
