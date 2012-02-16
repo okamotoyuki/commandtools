@@ -71,8 +71,6 @@ int configure_output(char *arg) {
 
 	if(arg == NULL) {
 		if(ltrace == NULL) ltrace = ltrace_open_string_data32(NULL);
-		if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
-		if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
 		if(prefix_flag) make_prefix();
 		prefix_flag = 0;
 	}
@@ -88,10 +86,6 @@ int configure_output(char *arg) {
 		}
 		else if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open_syslog_data32(NULL);
-		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
-		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_syslog(NULL);
 		}
 		else if(strncmp(arg, opt_log_file, OPT_LOG_FILE_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open_file(NULL, "LOG");
