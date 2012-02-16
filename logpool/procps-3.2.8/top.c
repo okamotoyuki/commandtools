@@ -2914,21 +2914,32 @@ static void summaryhlp (CPU_t *cpu, const char *pfx)
 
    // display some kinda' cpu state percentages
    // (who or what is explained by the passed prefix)
-   show_special(
-      0,
-      fmtmk(
-         States_fmts,
-         pfx,
-         (float)u_frme * scale,
-         (float)s_frme * scale,
-         (float)n_frme * scale,
-         (float)i_frme * scale,
-         (float)w_frme * scale,
-         (float)x_frme * scale,
-         (float)y_frme * scale,
-         (float)z_frme * scale
-      )
-   );
+   L_RECORD(
+		LOG_f("Cpu(s)_us", (float)u_frme * scale),
+		LOG_f("Cpu(s)_sy", (float)s_frme * scale),
+		LOG_f("Cpu(s)_ni", (float)n_frme * scale),
+		LOG_f("Cpu(s)_id", (float)i_frme * scale),
+		LOG_f("Cpu(s)_wa", (float)w_frme * scale),
+		LOG_f("Cpu(s)_hi", (float)x_frme * scale),
+		LOG_f("Cpu(s)_si", (float)y_frme * scale),
+		LOG_f("Cpu(s)_st", (float)z_frme * scale),
+		LOG_END
+        );
+//   show_special(
+//      0,
+//      fmtmk(
+//         States_fmts,
+//         pfx,
+//         (float)u_frme * scale,
+//         (float)s_frme * scale,
+//         (float)n_frme * scale,
+//         (float)i_frme * scale,
+//         (float)w_frme * scale,
+//         (float)x_frme * scale,
+//         (float)y_frme * scale,
+//         (float)z_frme * scale
+//      )
+//   );
    Msg_row += 1;
 
    // remember for next time around
@@ -2980,21 +2991,21 @@ static proc_t **summary_show (void)
 				 LOG_s("uptime and loadavg", sprint_uptime()),
 				 LOG_END
 				 );
-         show_special(0, fmtmk(LOADAV_line, Myname, sprint_uptime()));
+//         show_special(0, fmtmk(LOADAV_line, Myname, sprint_uptime()));
       } else {
          L_RECORD(
 				 LOG_s("Myname", Curwin->grpname),
 				 LOG_s("uptime and loadavg", sprint_uptime()),
 				 LOG_END
 				 );
-         show_special(
-            0,
-            fmtmk(
-               CHKw(Curwin, VISIBLE_tsk) ? LOADAV_line_alt : LOADAV_line,
-               Curwin->grpname,
-               sprint_uptime()
-            )
-         );
+//         show_special(
+//            0,
+//            fmtmk(
+//               CHKw(Curwin, VISIBLE_tsk) ? LOADAV_line_alt : LOADAV_line,
+//               Curwin->grpname,
+//               sprint_uptime()
+//            )
+//         );
       }
       Msg_row += 1;
    }
@@ -3009,13 +3020,13 @@ static proc_t **summary_show (void)
 					LOG_i("Task_zombied", Frame_zombied),
 					LOG_END
 					);
-      show_special(
-         0,
-         fmtmk(
-            STATES_line1,
-            Frame_maxtask, Frame_running, Frame_sleepin, Frame_stopped, Frame_zombied
-         )
-      );
+//      show_special(
+//         0,
+//         fmtmk(
+//            STATES_line1,
+//            Frame_maxtask, Frame_running, Frame_sleepin, Frame_stopped, Frame_zombied
+//         )
+//      );
       Msg_row += 1;
 
       smpcpu = cpus_refresh(smpcpu);
@@ -3044,8 +3055,8 @@ static proc_t **summary_show (void)
 			  LOG_i("Mem_buffers", kb_main_buffers),
 			  LOG_END
 			  );
-      show_special(0, fmtmk(MEMORY_line1
-         , kb_main_total, kb_main_used, kb_main_free, kb_main_buffers));
+//      show_special(0, fmtmk(MEMORY_line1
+//         , kb_main_total, kb_main_used, kb_main_free, kb_main_buffers));
       L_RECORD(
 			  LOG_i("Swap_total", kb_swap_total),
 			  LOG_i("Swap_used", kb_swap_used),
@@ -3053,8 +3064,8 @@ static proc_t **summary_show (void)
 			  LOG_i("Swap_cached", kb_main_cached),
 			  LOG_END
 			  );
-      show_special(0, fmtmk(MEMORY_line2
-         , kb_swap_total, kb_swap_used, kb_swap_free, kb_main_cached));
+//      show_special(0, fmtmk(MEMORY_line2
+//         , kb_swap_total, kb_swap_used, kb_swap_free, kb_main_cached));
       Msg_row += 2;
    }
 
@@ -3220,14 +3231,14 @@ static void task_show (const WIN_t *q, const proc_t *p)
 		   LOG_s("task", rbuf),
 		   LOG_END
 		   );
-   PUFF(
-      "\n%s%.*s%s%s",
-      (CHKw(q, Show_HIROWS) && 'R' == p->state) ? q->capclr_rowhigh : q->capclr_rownorm,
-      Screen_cols + pad,
-      rbuf,
-      Caps_off,
-      "" /*Cap_clr_eol*/
-   );
+//   PUFF(
+//      "\n%s%.*s%s%s",
+//      (CHKw(q, Show_HIROWS) && 'R' == p->state) ? q->capclr_rowhigh : q->capclr_rownorm,
+//      Screen_cols + pad,
+//      rbuf,
+//      Caps_off,
+//      "" /*Cap_clr_eol*/
+//   );
 
 #undef MKCOL
 }

@@ -7,6 +7,13 @@
 
 ltrace_t *ltrace;
 
+static ltrace_t *ltrace_open_string_data32(ltrace_t *parent)
+{
+	struct logpool_param_string param = {32, 1024};
+	extern logapi_t STRING_API;
+	return ltrace_open(parent, &STRING_API, (logpool_param_t *) &param);
+}
+
 static ltrace_t *ltrace_open_syslog_data32(ltrace_t *parent)
 {
 	struct logpool_param_syslog param = {32, 1024};
@@ -51,6 +58,7 @@ static void make_prefix(void) {
 	return;
 }
 
+#define OPT_LOG_STDERR_LEN 11
 #define OPT_LOG_SYSLOG_LEN 11
 #define OPT_LOG_FILE_LEN 9
 #define OPT_LOG_MEMCACHED_LEN 14
@@ -62,17 +70,21 @@ int configure_output(char *arg) {
 	logpool_init(LOGPOOL_DEFAULT);
 
 	if(arg == NULL) {
-		if(ltrace == NULL) ltrace = ltrace_open_syslog_data32(NULL);
+		if(ltrace == NULL) ltrace = ltrace_open_string_data32(NULL);
 		if(prefix_flag) make_prefix();
 		prefix_flag = 0;
 	}
 	else {
+		char opt_log_stderr[] = "-log=stderr";
 		char opt_log_syslog[] = "-log=syslog";
 		char opt_log_file[] = "-log=file";
 		char opt_log_memcached[] = "-log=memcached";
 		char opt_prefix[] = "-prefix=";
 
-		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
+		if(strncmp(arg, opt_log_stderr, OPT_LOG_STDERR_LEN) == 0) {
+			if(ltrace == NULL) ltrace = ltrace_open_string_data32(NULL);
+		}
+		else if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open_syslog_data32(NULL);
 		}
 		else if(strncmp(arg, opt_log_file, OPT_LOG_FILE_LEN) == 0) {

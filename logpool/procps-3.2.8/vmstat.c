@@ -188,7 +188,7 @@ static void new_format(void) {
   int debt = 0;  // handle idle ticks running backwards
 
   sleep_half=(sleep_time/2);
-  new_header();
+//  new_header();
   meminfo();
 
   getstat(cpu_use,cpu_nic,cpu_sys,cpu_idl,cpu_iow,cpu_xxx,cpu_yyy,cpu_zzz,
@@ -227,23 +227,23 @@ static void new_format(void) {
 		  LOG_i("cpu_wa", (unsigned)( (100*diow                    + divo2) / Div )),
 		  LOG_END
 		  );
-  printf(format,
-	 running, blocked,
-	 unitConvert(kb_swap_used), unitConvert(kb_main_free),
-	 unitConvert(a_option?kb_inactive:kb_main_buffers),
-	 unitConvert(a_option?kb_active:kb_main_cached),
-	 (unsigned)( (*pswpin  * unitConvert(kb_per_page) * hz + divo2) / Div ),
-	 (unsigned)( (*pswpout * unitConvert(kb_per_page) * hz + divo2) / Div ),
-	 (unsigned)( (*pgpgin                * hz + divo2) / Div ),
-	 (unsigned)( (*pgpgout               * hz + divo2) / Div ),
-	 (unsigned)( (*intr                  * hz + divo2) / Div ),
-	 (unsigned)( (*ctxt                  * hz + divo2) / Div ),
-	 (unsigned)( (100*duse                    + divo2) / Div ),
-	 (unsigned)( (100*dsys                    + divo2) / Div ),
-	 (unsigned)( (100*didl                    + divo2) / Div ),
-	 (unsigned)( (100*diow                    + divo2) / Div ) /* ,
-	 (unsigned)( (100*dstl                    + divo2) / Div ) */
-  );
+//  printf(format,
+//	 running, blocked,
+//	 unitConvert(kb_swap_used), unitConvert(kb_main_free),
+//	 unitConvert(a_option?kb_inactive:kb_main_buffers),
+//	 unitConvert(a_option?kb_active:kb_main_cached),
+//	 (unsigned)( (*pswpin  * unitConvert(kb_per_page) * hz + divo2) / Div ),
+//	 (unsigned)( (*pswpout * unitConvert(kb_per_page) * hz + divo2) / Div ),
+//	 (unsigned)( (*pgpgin                * hz + divo2) / Div ),
+//	 (unsigned)( (*pgpgout               * hz + divo2) / Div ),
+//	 (unsigned)( (*intr                  * hz + divo2) / Div ),
+//	 (unsigned)( (*ctxt                  * hz + divo2) / Div ),
+//	 (unsigned)( (100*duse                    + divo2) / Div ),
+//	 (unsigned)( (100*dsys                    + divo2) / Div ),
+//	 (unsigned)( (100*didl                    + divo2) / Div ),
+//	 (unsigned)( (100*diow                    + divo2) / Div ) /* ,
+//	 (unsigned)( (100*dstl                    + divo2) / Div ) */
+//  );
 
   for(i=1;i<num_updates;i++) { /* \\\\\\\\\\\\\\\\\\\\ main loop ////////////////// */
     sleep(sleep_time);
@@ -299,23 +299,23 @@ static void new_format(void) {
 			LOG_i("cpu_wa", (unsigned)( (100*diow+divo2)/Div )),
 			LOG_END
 				);
-    printf(format,
-           running, blocked,
-	   unitConvert(kb_swap_used),unitConvert(kb_main_free),
-	   unitConvert(a_option?kb_inactive:kb_main_buffers),
-	   unitConvert(a_option?kb_active:kb_main_cached),
-	   (unsigned)( ( (pswpin [tog] - pswpin [!tog])*unitConvert(kb_per_page)+sleep_half )/sleep_time ), /*si*/
-	   (unsigned)( ( (pswpout[tog] - pswpout[!tog])*unitConvert(kb_per_page)+sleep_half )/sleep_time ), /*so*/
-	   (unsigned)( (  pgpgin [tog] - pgpgin [!tog]             +sleep_half )/sleep_time ), /*bi*/
-	   (unsigned)( (  pgpgout[tog] - pgpgout[!tog]             +sleep_half )/sleep_time ), /*bo*/
-	   (unsigned)( (  intr   [tog] - intr   [!tog]             +sleep_half )/sleep_time ), /*in*/
-	   (unsigned)( (  ctxt   [tog] - ctxt   [!tog]             +sleep_half )/sleep_time ), /*cs*/
-	   (unsigned)( (100*duse+divo2)/Div ), /*us*/
-	   (unsigned)( (100*dsys+divo2)/Div ), /*sy*/
-	   (unsigned)( (100*didl+divo2)/Div ), /*id*/
-	   (unsigned)( (100*diow+divo2)/Div )/*, //wa
-	   (unsigned)( (100*dstl+divo2)/Div )  //st  */
-    );
+//    printf(format,
+//           running, blocked,
+//	   unitConvert(kb_swap_used),unitConvert(kb_main_free),
+//	   unitConvert(a_option?kb_inactive:kb_main_buffers),
+//	   unitConvert(a_option?kb_active:kb_main_cached),
+//	   (unsigned)( ( (pswpin [tog] - pswpin [!tog])*unitConvert(kb_per_page)+sleep_half )/sleep_time ), /*si*/
+//	   (unsigned)( ( (pswpout[tog] - pswpout[!tog])*unitConvert(kb_per_page)+sleep_half )/sleep_time ), /*so*/
+//	   (unsigned)( (  pgpgin [tog] - pgpgin [!tog]             +sleep_half )/sleep_time ), /*bi*/
+//	   (unsigned)( (  pgpgout[tog] - pgpgout[!tog]             +sleep_half )/sleep_time ), /*bo*/
+//	   (unsigned)( (  intr   [tog] - intr   [!tog]             +sleep_half )/sleep_time ), /*in*/
+//	   (unsigned)( (  ctxt   [tog] - ctxt   [!tog]             +sleep_half )/sleep_time ), /*cs*/
+//	   (unsigned)( (100*duse+divo2)/Div ), /*us*/
+//	   (unsigned)( (100*dsys+divo2)/Div ), /*sy*/
+//	   (unsigned)( (100*didl+divo2)/Div ), /*id*/
+//	   (unsigned)( (100*diow+divo2)/Div )/*, //wa
+//	   (unsigned)( (100*dstl+divo2)/Div )  //st  */
+//    );
   }
 }
 
@@ -352,7 +352,7 @@ static int diskpartition_format(const char* partition_name){
     if(!current_partition){
          return -1;
     }
-    diskpartition_header(partition_name);
+//    diskpartition_header(partition_name);
     L_RECORD(
 			LOG_i("reads", current_partition->reads),
 			LOG_i("read_sectors", current_partition->reads_sectors),
@@ -360,8 +360,8 @@ static int diskpartition_format(const char* partition_name){
 			LOG_i("requested_writes", current_partition->requested_writes),
 			LOG_END
 			);
-    printf (format,
-       current_partition->reads,current_partition->reads_sectors,current_partition->writes,current_partition->requested_writes);
+//    printf (format,
+//       current_partition->reads,current_partition->reads_sectors,current_partition->writes,current_partition->requested_writes);
     fflush(stdout);
     free(disks);
     free(partitions);
@@ -386,8 +386,8 @@ static int diskpartition_format(const char* partition_name){
 				LOG_i("requested_writes", current_partition->requested_writes),
 				LOG_END
 				);
-        printf (format,
-        current_partition->reads,current_partition->reads_sectors,current_partition->writes,current_partition->requested_writes);
+//        printf (format,
+//        current_partition->reads,current_partition->reads_sectors,current_partition->writes,current_partition->requested_writes);
         fflush(stdout);
         free(disks);
         free(partitions);
@@ -417,7 +417,7 @@ static void diskformat(void){
     fclose(fDiskstat);
     ndisks=getdiskstat(&disks,&partitions);
     for(k=0; k<ndisks; k++){
-      if (moreheaders && ((k%height)==0)) diskheader();
+//      if (moreheaders && ((k%height)==0)) diskheader();
      L_RECORD(
 			 LOG_i("disk", disks[k].disk_name),
 			 LOG_i("reads_total", disks[k].reads),
@@ -432,20 +432,20 @@ static void diskformat(void){
 			 LOG_i("IO_sec", disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0),
 			 LOG_END
 			 );
-      printf(format,
-        disks[k].disk_name,
-        disks[k].reads,
-        disks[k].merged_reads,
-        disks[k].reads_sectors,
-        disks[k].milli_reading,
-        disks[k].writes,
-        disks[k].merged_writes,
-        disks[k].written_sectors,
-        disks[k].milli_writing,
-        disks[k].inprogress_IO?disks[k].inprogress_IO/1000:0,
-        disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0/*,
-        disks[i].weighted_milli_spent_IO/1000*/
-      );
+//      printf(format,
+//        disks[k].disk_name,
+//        disks[k].reads,
+//        disks[k].merged_reads,
+//        disks[k].reads_sectors,
+//        disks[k].milli_reading,
+//        disks[k].writes,
+//        disks[k].merged_writes,
+//        disks[k].written_sectors,
+//        disks[k].milli_writing,
+//        disks[k].inprogress_IO?disks[k].inprogress_IO/1000:0,
+//        disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0/*,
+//        disks[i].weighted_milli_spent_IO/1000*/
+//      );
       fflush(stdout);
     }
     free(disks);
@@ -454,7 +454,7 @@ static void diskformat(void){
       sleep(sleep_time);
       ndisks=getdiskstat(&disks,&partitions);
       for(i=0; i<ndisks; i++,k++){
-        if (moreheaders && ((k%height)==0)) diskheader();
+//        if (moreheaders && ((k%height)==0)) diskheader();
         L_RECORD(
 			 LOG_i("disk", disks[k].disk_name),
 			 LOG_i("reads_total", disks[k].reads),
@@ -469,20 +469,20 @@ static void diskformat(void){
 			 LOG_i("IO_sec", disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0),
 			 LOG_END
 			 );
-        printf(format,
-          disks[i].disk_name,
-          disks[i].reads,
-          disks[i].merged_reads,
-          disks[i].reads_sectors,
-          disks[i].milli_reading,
-          disks[i].writes,
-          disks[i].merged_writes,
-          disks[i].written_sectors,
-          disks[i].milli_writing,
-          disks[i].inprogress_IO?disks[i].inprogress_IO/1000:0,
-          disks[i].milli_spent_IO?disks[i].milli_spent_IO/1000:0/*,
-          disks[i].weighted_milli_spent_IO/1000*/
-        );
+//        printf(format,
+//          disks[i].disk_name,
+//          disks[i].reads,
+//          disks[i].merged_reads,
+//          disks[i].reads_sectors,
+//          disks[i].milli_reading,
+//          disks[i].writes,
+//          disks[i].merged_writes,
+//          disks[i].written_sectors,
+//          disks[i].milli_writing,
+//          disks[i].inprogress_IO?disks[i].inprogress_IO/1000:0,
+//          disks[i].milli_spent_IO?disks[i].milli_spent_IO/1000:0/*,
+//          disks[i].weighted_milli_spent_IO/1000*/
+//        );
         fflush(stdout);
       }
       free(disks);
@@ -517,7 +517,7 @@ static void slabformat (void){
 
   nSlab = getslabinfo(&slabs);
   for(k=0; k<nSlab; k++){
-    if (moreheaders && ((k%height)==0)) slabheader();
+//    if (moreheaders && ((k%height)==0)) slabheader();
     L_RECORD(
 			LOG_i("Cache", slabs[k].name),
 			LOG_i("Num", slabs[k].active_objs),
@@ -526,20 +526,20 @@ static void slabformat (void){
 			LOG_i("Pages", slabs[k].objperslab),
 			LOG_END
 			);
-    printf(format,
-      slabs[k].name,
-      slabs[k].active_objs,
-      slabs[k].num_objs,
-      slabs[k].objsize,
-      slabs[k].objperslab
-    );
+//    printf(format,
+//      slabs[k].name,
+//      slabs[k].active_objs,
+//      slabs[k].num_objs,
+//      slabs[k].objsize,
+//      slabs[k].objperslab
+//    );
   }
   free(slabs);
   for(j=1,k=1; j<num_updates; j++) { 
     sleep(sleep_time);
     nSlab = getslabinfo(&slabs);
     for(i=0; i<nSlab; i++,k++){
-      if (moreheaders && ((k%height)==0)) slabheader();
+//      if (moreheaders && ((k%height)==0)) slabheader();
       L_RECORD(
 			LOG_i("Cache", slabs[k].name),
 			LOG_i("Num", slabs[k].active_objs),
@@ -548,13 +548,13 @@ static void slabformat (void){
 			LOG_i("Pages", slabs[k].objperslab),
 			LOG_END
 			);
-      printf(format,
-        slabs[i].name,
-        slabs[i].active_objs,
-        slabs[i].num_objs,
-        slabs[i].objsize,
-        slabs[i].objperslab
-      );
+//      printf(format,
+//        slabs[i].name,
+//        slabs[i].active_objs,
+//        slabs[i].num_objs,
+//        slabs[i].objsize,
+//        slabs[i].objperslab
+//      );
     }
     free(slabs);
   }
@@ -579,8 +579,13 @@ static void disksum_format(void) {
   if ((fDiskstat=fopen("/proc/diskstats", "rb"))){
     fclose(fDiskstat);
     ndisks=getdiskstat(&disks, &partitions);
-    printf("%13d disks \n", ndisks);
-    printf("%13d partitions \n", getpartitions_num(disks, ndisks));
+    L_RECORD(
+		LOG_i("disks", ndisks),
+		LOG_i("partitions", getpartitions_num(disks, ndisks)),
+		LOG_END
+        );
+//    printf("%13d disks \n", ndisks);
+//    printf("%13d partitions \n", getpartitions_num(disks, ndisks));
 
     for(i=0; i<ndisks; i++){
          reads+=disks[i].reads;
@@ -607,16 +612,16 @@ static void disksum_format(void) {
 		LOG_i("milli spent IO",milli_spent_IO),
 		LOG_END
         );
-    printf("%13lu total reads\n",reads);
-    printf("%13lu merged reads\n",merged_reads);
-    printf("%13lu read sectors\n",read_sectors);
-    printf("%13lu milli reading\n",milli_reading);
-    printf("%13lu writes\n",writes);
-    printf("%13lu merged writes\n",merged_writes);
-    printf("%13lu written sectors\n",written_sectors);
-    printf("%13lu milli writing\n",milli_writing);
-    printf("%13lu inprogress IO\n",inprogress_IO);
-    printf("%13lu milli spent IO\n",milli_spent_IO);
+//    printf("%13lu total reads\n",reads);
+//    printf("%13lu merged reads\n",merged_reads);
+//    printf("%13lu read sectors\n",read_sectors);
+//    printf("%13lu milli reading\n",milli_reading);
+//    printf("%13lu writes\n",writes);
+//    printf("%13lu merged writes\n",merged_writes);
+//    printf("%13lu written sectors\n",written_sectors);
+//    printf("%13lu milli writing\n",milli_writing);
+//    printf("%13lu inprogress IO\n",inprogress_IO);
+//    printf("%13lu milli spent IO\n",milli_spent_IO);
 
     free(disks);
     free(partitions);
@@ -668,32 +673,32 @@ static void sum_format(void) {
 		LOG_i("forks", processes),
 		LOG_END
         );
-  printf("%13lu %s total memory\n", unitConvert(kb_main_total),szDataUnit);
-  printf("%13lu %s used memory\n", unitConvert(kb_main_used),szDataUnit);
-  printf("%13lu %s active memory\n", unitConvert(kb_active),szDataUnit);
-  printf("%13lu %s inactive memory\n", unitConvert(kb_inactive),szDataUnit);
-  printf("%13lu %s free memory\n", unitConvert(kb_main_free),szDataUnit);
-  printf("%13lu %s buffer memory\n", unitConvert(kb_main_buffers),szDataUnit);
-  printf("%13lu %s swap cache\n", unitConvert(kb_main_cached),szDataUnit);
-  printf("%13lu %s total swap\n", unitConvert(kb_swap_total),szDataUnit);
-  printf("%13lu %s used swap\n", unitConvert(kb_swap_used),szDataUnit);
-  printf("%13lu %s free swap\n", unitConvert(kb_swap_free),szDataUnit);
-  printf("%13Lu non-nice user cpu ticks\n", cpu_use);
-  printf("%13Lu nice user cpu ticks\n", cpu_nic);
-  printf("%13Lu system cpu ticks\n", cpu_sys);
-  printf("%13Lu idle cpu ticks\n", cpu_idl);
-  printf("%13Lu IO-wait cpu ticks\n", cpu_iow);
-  printf("%13Lu IRQ cpu ticks\n", cpu_xxx);
-  printf("%13Lu softirq cpu ticks\n", cpu_yyy);
-  printf("%13Lu stolen cpu ticks\n", cpu_zzz);
-  printf("%13lu pages paged in\n", pgpgin);
-  printf("%13lu pages paged out\n", pgpgout);
-  printf("%13lu pages swapped in\n", pswpin);
-  printf("%13lu pages swapped out\n", pswpout);
-  printf("%13u interrupts\n", intr);
-  printf("%13u CPU context switches\n", ctxt);
-  printf("%13u boot time\n", btime);
-  printf("%13u forks\n", processes);
+//  printf("%13lu %s total memory\n", unitConvert(kb_main_total),szDataUnit);
+//  printf("%13lu %s used memory\n", unitConvert(kb_main_used),szDataUnit);
+//  printf("%13lu %s active memory\n", unitConvert(kb_active),szDataUnit);
+//  printf("%13lu %s inactive memory\n", unitConvert(kb_inactive),szDataUnit);
+//  printf("%13lu %s free memory\n", unitConvert(kb_main_free),szDataUnit);
+//  printf("%13lu %s buffer memory\n", unitConvert(kb_main_buffers),szDataUnit);
+//  printf("%13lu %s swap cache\n", unitConvert(kb_main_cached),szDataUnit);
+//  printf("%13lu %s total swap\n", unitConvert(kb_swap_total),szDataUnit);
+//  printf("%13lu %s used swap\n", unitConvert(kb_swap_used),szDataUnit);
+//  printf("%13lu %s free swap\n", unitConvert(kb_swap_free),szDataUnit);
+//  printf("%13Lu non-nice user cpu ticks\n", cpu_use);
+//  printf("%13Lu nice user cpu ticks\n", cpu_nic);
+//  printf("%13Lu system cpu ticks\n", cpu_sys);
+//  printf("%13Lu idle cpu ticks\n", cpu_idl);
+//  printf("%13Lu IO-wait cpu ticks\n", cpu_iow);
+//  printf("%13Lu IRQ cpu ticks\n", cpu_xxx);
+//  printf("%13Lu softirq cpu ticks\n", cpu_yyy);
+//  printf("%13Lu stolen cpu ticks\n", cpu_zzz);
+//  printf("%13lu pages paged in\n", pgpgin);
+//  printf("%13lu pages paged out\n", pgpgout);
+//  printf("%13lu pages swapped in\n", pswpin);
+//  printf("%13lu pages swapped out\n", pswpout);
+//  printf("%13u interrupts\n", intr);
+//  printf("%13u CPU context switches\n", ctxt);
+//  printf("%13u boot time\n", btime);
+//  printf("%13u forks\n", processes);
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -715,7 +720,7 @@ static void fork_format(void) {
 		  LOG_i("forks", processes),
 		  LOG_END
 		  );
-  printf("%13u forks\n", processes);
+//  printf("%13u forks\n", processes);
 }
 
 ////////////////////////////////////////////////////////////////////////////
