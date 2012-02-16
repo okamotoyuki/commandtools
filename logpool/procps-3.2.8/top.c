@@ -1825,12 +1825,12 @@ static void parse_args (char **args)
             case '\0':
             case '-':
                if(*(cp++) == '-') {
-				   if(configure_output(cp)) {
-					   cp++;
-					   std_err(fmtmk("unknown argument '%s'\nusage:\t%s%s", cp, Myname, usage));
-				   }
-				   cp = NULL;
-			   }
+                   if(configure_output(cp)) {
+                       cp++;
+                       std_err(fmtmk("unknown argument '%s'\nusage:\t%s%s", cp, Myname, usage));
+                   }
+                   cp = NULL;
+               }
                break;
             case 'b':
                Batch = 1;
@@ -1925,6 +1925,7 @@ static void parse_args (char **args)
          if (*cp) cp += strspn(&cp[1], "- ,.1234567890") + 1;
       } /* end: while (*cp) */
    } /* end: while (*args) */
+
    configure_output(NULL);
       /* fixup delay time, maybe... */
    if (MAXFLOAT != tmp_delay) {
@@ -2975,47 +2976,44 @@ static proc_t **summary_show (void)
    // Display Uptime and Loadavg
    if (CHKw(Curwin, View_LOADAV)) {
       if (!Rc.mode_altscr) {
-         L_RECORD(
-				 LOG_s("Myname", Myname),
-				 LOG_s("uptime and loadavg", sprint_uptime()),
-				 LOG_END
-				 );
-         show_special(0, fmtmk(LOADAV_line, Myname, sprint_uptime()));
+          L_RECORD(
+                  LOG_s("Myname", Myname),
+                  LOG_s("uptime and loadavg", sprint_uptime()),
+                  LOG_END);
+          //show_special(0, fmtmk(LOADAV_line, Myname, sprint_uptime()));
       } else {
-         L_RECORD(
-				 LOG_s("Myname", Curwin->grpname),
-				 LOG_s("uptime and loadavg", sprint_uptime()),
-				 LOG_END
-				 );
-         show_special(
-            0,
-            fmtmk(
-               CHKw(Curwin, VISIBLE_tsk) ? LOADAV_line_alt : LOADAV_line,
-               Curwin->grpname,
-               sprint_uptime()
-            )
-         );
+          L_RECORD(
+                  LOG_s("Myname", Curwin->grpname),
+                  LOG_s("uptime and loadavg", sprint_uptime()),
+                  LOG_END);
+          // show_special(
+          //   0,
+          //   fmtmk(
+          //      CHKw(Curwin, VISIBLE_tsk) ? LOADAV_line_alt : LOADAV_line,
+          //      Curwin->grpname,
+          //      sprint_uptime()
+          //   )
+          //);
       }
       Msg_row += 1;
    }
 
    // Display Task and Cpu(s) States
    if (CHKw(Curwin, View_STATES)) {
-            L_RECORD(
-					LOG_i("Task_total", Frame_maxtask),
-					LOG_i("Task_running", Frame_running),
-					LOG_i("Task_sleeping", Frame_sleepin),
-					LOG_i("Task_stopped", Frame_stopped),
-					LOG_i("Task_zombied", Frame_zombied),
-					LOG_END
-					);
-      show_special(
-         0,
-         fmtmk(
-            STATES_line1,
-            Frame_maxtask, Frame_running, Frame_sleepin, Frame_stopped, Frame_zombied
-         )
-      );
+       L_RECORD(
+               LOG_i("Task_total", Frame_maxtask),
+               LOG_i("Task_running", Frame_running),
+               LOG_i("Task_sleeping", Frame_sleepin),
+               LOG_i("Task_stopped", Frame_stopped),
+               LOG_i("Task_zombied", Frame_zombied),
+               LOG_END);
+       // show_special(
+       //   0,
+       //   fmtmk(
+       //      STATES_line1,
+       //      Frame_maxtask, Frame_running, Frame_sleepin, Frame_stopped, Frame_zombied
+       //   )
+       //);
       Msg_row += 1;
 
       smpcpu = cpus_refresh(smpcpu);
@@ -3037,24 +3035,20 @@ static proc_t **summary_show (void)
    // Display Memory and Swap stats
    meminfo();
    if (CHKw(Curwin, View_MEMORY)) {
-      L_RECORD(
-			  LOG_i("Mem_total", kb_main_total),
-			  LOG_i("Mem_used", kb_main_used),
-			  LOG_i("Mem_free", kb_main_free),
-			  LOG_i("Mem_buffers", kb_main_buffers),
-			  LOG_END
-			  );
-      show_special(0, fmtmk(MEMORY_line1
-         , kb_main_total, kb_main_used, kb_main_free, kb_main_buffers));
-      L_RECORD(
-			  LOG_i("Swap_total", kb_swap_total),
-			  LOG_i("Swap_used", kb_swap_used),
-			  LOG_i("Swap_free", kb_swap_free),
-			  LOG_i("Swap_cached", kb_main_cached),
-			  LOG_END
-			  );
-      show_special(0, fmtmk(MEMORY_line2
-         , kb_swap_total, kb_swap_used, kb_swap_free, kb_main_cached));
+      L_RECORD(LOG_i("Mem_total", kb_main_total),
+              LOG_i("Mem_used", kb_main_used),
+              LOG_i("Mem_free", kb_main_free),
+              LOG_i("Mem_buffers", kb_main_buffers),
+              LOG_END);
+      //show_special(0, fmtmk(MEMORY_line1
+      //   , kb_main_total, kb_main_used, kb_main_free, kb_main_buffers));
+      L_RECORD(LOG_i("Swap_total", kb_swap_total),
+              LOG_i("Swap_used", kb_swap_used),
+              LOG_i("Swap_free", kb_swap_free),
+              LOG_i("Swap_cached", kb_main_cached),
+              LOG_END);
+      //show_special(0, fmtmk(MEMORY_line2
+      //   , kb_swap_total, kb_swap_used, kb_swap_free, kb_main_cached));
       Msg_row += 2;
    }
 
@@ -3216,18 +3210,16 @@ static void task_show (const WIN_t *q, const proc_t *p)
 
         rp = scat(rp, cbuf+advance);
    } /* end: for 'maxpflgs' */
-   L_RECORD(
-		   LOG_s("task", rbuf),
-		   LOG_END
-		   );
-   PUFF(
-      "\n%s%.*s%s%s",
-      (CHKw(q, Show_HIROWS) && 'R' == p->state) ? q->capclr_rowhigh : q->capclr_rownorm,
-      Screen_cols + pad,
-      rbuf,
-      Caps_off,
-      "" /*Cap_clr_eol*/
-   );
+
+   L_RECORD(LOG_s("task", rbuf), LOG_END);
+   //PUFF(
+   //   "\n%s%.*s%s%s",
+   //   (CHKw(q, Show_HIROWS) && 'R' == p->state) ? q->capclr_rowhigh : q->capclr_rownorm,
+   //   Screen_cols + pad,
+   //   rbuf,
+   //   Caps_off,
+   //   "" /*Cap_clr_eol*/
+   //);
 
 #undef MKCOL
 }
