@@ -88,10 +88,10 @@ int configure_output(char *arg) {
 			if(ltrace == NULL) ltrace = ltrace_open_syslog_data32(NULL);
 		}
 		else if(strncmp(arg, opt_log_file, OPT_LOG_FILE_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_file(NULL, "LOG");
+			if(ltrace == NULL) ltrace = ltrace_open_file_data32(NULL, "LOG");
 		}
 		else if(strncmp(arg, opt_log_memcached, OPT_LOG_MEMCACHED_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_memcache(NULL, "localhost", 11211);
+			if(ltrace == NULL) ltrace = ltrace_open_memcache_data32(NULL, "localhost", 11211);
 		}
 		else if(strncmp(arg, opt_prefix, OPT_PREFIX_LEN) == 0) {
 			arg += 8;
