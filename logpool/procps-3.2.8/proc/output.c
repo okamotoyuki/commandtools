@@ -58,6 +58,13 @@ static void make_prefix(void) {
 	return;
 }
 
+static char *get_server_ip(void) {
+	char *ip;
+	ip = getenv("LOGPOOL_SERVER_IP");
+	return ip;
+}
+
+
 #define OPT_LOG_STDERR_LEN 11
 #define OPT_LOG_SYSLOG_LEN 11
 #define OPT_LOG_FILE_LEN 9
@@ -91,7 +98,16 @@ int configure_output(char *arg) {
 			if(ltrace == NULL) ltrace = ltrace_open_file_data32(NULL, "LOG");
 		}
 		else if(strncmp(arg, opt_log_memcached, OPT_LOG_MEMCACHED_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_memcache_data32(NULL, "localhost", 11211);
+			if(ltrace == NULL) {
+				char *ip = get_server_ip();
+				char *host = strtok(ip, ":");
+				int port = atoi(strtok(NULL, ":"));
+				if(ip = NULL) {
+					host = "localhost";
+					port = 11211;
+				}
+				ltrace = ltrace_open_memcache_data32(NULL, host, port);
+			}
 		}
 		else if(strncmp(arg, opt_prefix, OPT_PREFIX_LEN) == 0) {
 			arg += 8;
