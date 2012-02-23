@@ -20,6 +20,6 @@ global:
   kb_low_total; kb_low_free; kb_high_total; kb_high_free;
   vm_pgpgin; vm_pgpgout; vm_pswpin; vm_pswpout;
   free_slabinfo; put_slabinfo; get_slabinfo; get_proc_stats;
-  configure_output; ltrace; prefix;
+  set_prefix; set_ip; lmt; prefix;
 local: *;
 };

@@ -76,7 +76,7 @@ proc/$(ANAME): $(LIBOBJ)
 
 #proc/$(SONAME): proc/library.map
 proc/$(SONAME): $(LIBOBJ)
-	$(CC) $(ALL_CFLAGS) $(ALL_LDFLAGS) -shared -Wl,-soname,$(SONAME) -Wl,--version-script=proc/library.map -o $@ $^ -lc -llogpool
+	$(CC) $(ALL_CFLAGS) $(ALL_LDFLAGS) -shared -Wl,-soname,$(SONAME) -Wl,--version-script=proc/library.map -o $@ $^ -lc -llpmonitor
 
 
 # AUTOMATIC DEPENDENCY GENERATION -- GCC AND GNUMAKE DEPENDENT

@@ -1,14 +1,15 @@
 // using for logpool
 
-#include <logpool.h>
+#include <lpmonitor.h>
 
 #define MAX_PREFIX_LEN 32
 
-extern ltrace_t *ltrace;
+extern lpmonitor_t *lmt;
 extern char prefix[MAX_PREFIX_LEN];
 
-extern int configure_output(char *arg);
+extern int set_prefix(char *arg);
+extern void set_ip(void);
 
 #define L_RECORD(...) do { \
-	ltrace_record(ltrace, prefix , __VA_ARGS__); \
+	lpmonitor_record(lmt, __VA_ARGS__); \
 } while(0)

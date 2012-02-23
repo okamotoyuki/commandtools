@@ -45,9 +45,11 @@ usr/include              := $(DESTDIR)/usr/include/
 
 #SKIP     := $(bin)kill $(man1)kill.1
 
-BINFILES := $(usr/bin)top $(usr/bin)vmstat
+#BINFILES := $(usr/bin)top $(usr/bin)vmstat
+BINFILES := $(usr/bin)vmstat
 
-MANFILES := $(man1)top.1 $(man8)vmstat.8
+#MANFILES := $(man1)top.1 $(man8)vmstat.8
+#MANFILES := $(man8)vmstat.8
 
 TARFILES := AUTHORS BUGS NEWS README TODO COPYING COPYING.LIB \
             Makefile procps.lsm procps.spec v t README.top CodingStyle \
@@ -100,7 +102,7 @@ CFLAGS       := -O2 -s
 ALL_CFLAGS   := $(PKG_CFLAGS) $(CFLAGS)
 
 PKG_LDFLAGS  := -Wl,-warn-common
-LDFLAGS      := -llogpool
+LDFLAGS      := -L$(LD_LIBRARY_PATH) -llpmonitor
 ALL_LDFLAGS  := $(PKG_LDFLAGS) $(LDFLAGS)
 
 ############ Add some extra flags if gcc allows

@@ -100,9 +100,13 @@ int configure_output(char *arg) {
 		else if(strncmp(arg, opt_log_memcached, OPT_LOG_MEMCACHED_LEN) == 0) {
 			if(ltrace == NULL) {
 				char *ip = get_server_ip();
-				char *host = strtok(ip, ":");
-				int port = atoi(strtok(NULL, ":"));
-				if(ip = NULL) {
+				char *host;
+				int port;
+				if(ip != NULL) {
+					host = strtok(ip, ":");
+					port = atoi(strtok(NULL, ":"));
+				}
+				else {
 					host = "localhost";
 					port = 11211;
 				}
