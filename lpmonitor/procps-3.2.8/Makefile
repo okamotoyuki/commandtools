@@ -45,16 +45,16 @@ usr/include              := $(DESTDIR)/usr/include/
 
 #SKIP     := $(bin)kill $(man1)kill.1
 
-#BINFILES := $(usr/bin)top $(usr/bin)vmstat
-BINFILES := $(usr/bin)vmstat
+#BINFILES := $(usr/bin)top $(usr/bin)dvmstat
+BINFILES := $(usr/bin)dvmstat
 
 #MANFILES := $(man1)top.1 $(man8)vmstat.8
-#MANFILES := $(man8)vmstat.8
+#MANFILES := $(man8)dvmstat.8
 
 TARFILES := AUTHORS BUGS NEWS README TODO COPYING COPYING.LIB \
             Makefile procps.lsm procps.spec v t README.top CodingStyle \
             sysctl.conf minimal.c $(notdir $(MANFILES)) dummy.c \
-            uptime.c tload.c free.c w.c top.c vmstat.c watch.c skill.c \
+            uptime.c tload.c free.c w.c top.c dvmstat.c watch.c skill.c \
             sysctl.c pgrep.c top.h pmap.c slabtop.c pwdx.c
 
 # Stuff (tests, temporary hacks, etc.) left out of the standard tarball
@@ -239,7 +239,7 @@ w.o:    w.c
 
 ############ prog.o --> prog
 
-pmap w uptime tload free sysctl vmstat utmp pgrep skill pwdx: % : %.o $(LIBPROC)
+pmap w uptime tload free sysctl dvmstat utmp pgrep skill pwdx: % : %.o $(LIBPROC)
 	$(CC) $(ALL_CFLAGS) $^ $(ALL_LDFLAGS) -o $@
 
 slabtop top: % : %.o $(LIBPROC)
