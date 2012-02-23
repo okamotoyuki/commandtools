@@ -745,6 +745,7 @@ int main(int argc, char *argv[]) {
       switch (*(++(*argv))) {
       case '-':
 		  if(set_prefix(*argv)) usage();
+		  break;
 
       case 'V':
 	display_version();
