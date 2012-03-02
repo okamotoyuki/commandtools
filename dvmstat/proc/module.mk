@@ -20,7 +20,7 @@
 SHARED     := 1
 
 # for lib$(NAME).so and /usr/include/($NAME) and such
-NAME       :=  proc
+NAME       :=  dproc
 
 LIBVERSION := $(VERSION).$(SUBVERSION).$(MINORVERSION)
 ABIVERSION := 0
