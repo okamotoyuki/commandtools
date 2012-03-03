@@ -39,8 +39,10 @@ usr/proc/bin             := $(DESTDIR)/usr/bin/
 man1                     := $(DESTDIR)/usr/share/man/man1/
 man5                     := $(DESTDIR)/usr/share/man/man5/
 man8                     := $(DESTDIR)/usr/share/man/man8/
-lib                      := $(DESTDIR)/$(lib64)/
-usr/lib                  := $(DESTDIR)/usr/$(lib64)/
+#lib                      := $(DESTDIR)/$(lib64)/
+lib                      := $(DESTDIR)/lib/
+#usr/lib                  := $(DESTDIR)/usr/$(lib64)/
+usr/lib                  := $(DESTDIR)/usr/lib/
 usr/include              := $(DESTDIR)/usr/include/
 
 #SKIP     := $(bin)kill $(man1)kill.1
@@ -99,7 +101,8 @@ CFLAGS       := -O2 -s
 ALL_CFLAGS   := $(PKG_CFLAGS) $(CFLAGS)
 
 PKG_LDFLAGS  := -Wl,-warn-common
-LDFLAGS      := -llogpool
+#LDFLAGS      := -llogpool
+LDFLAGS      := -llogpool -ldl
 ALL_LDFLAGS  := $(PKG_LDFLAGS) $(LDFLAGS)
 
 ############ Add some extra flags if gcc allows
