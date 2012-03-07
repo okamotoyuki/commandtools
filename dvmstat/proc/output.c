@@ -47,14 +47,15 @@ static void make_prefix(void) {
 	char *env;
 
 	if((env = getenv("LOGPOOL_PREFIX")) != NULL) {
-		memcpy(prefix, env, strlen(env));
+		memcpy(prefix, "dvmstat+", 8);
+		memcpy(prefix + 8, env, strlen(env));
 		return;
 	}
 
 	char hostname[MAX_HOSTNAME_LEN];
 	int pid = (int)getpid();
 	gethostname(hostname, MAX_HOSTNAME_LEN);
-	snprintf(prefix, MAX_PREFIX_LEN, "%s+%d", hostname, pid);
+	snprintf(prefix, MAX_PREFIX_LEN, "dvmstat+%s+%d", hostname, pid);
 	return;
 }
 
@@ -115,7 +116,10 @@ int configure_output(char *arg) {
 		}
 		else if(strncmp(arg, opt_prefix, OPT_PREFIX_LEN) == 0) {
 			arg += 8;
-			if(prefix_flag) memcpy(prefix, arg, strlen(arg));
+			if(prefix_flag) {
+				memcpy(prefix, "dvmstat+", 8);
+				memcpy(prefix + 8, arg, strlen(arg));
+			}
 			prefix_flag = 0;
 		}
 		else {

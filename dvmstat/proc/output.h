@@ -2,7 +2,7 @@
 
 #include <logpool.h>
 
-#define MAX_PREFIX_LEN 32
+#define MAX_PREFIX_LEN 64
 
 extern ltrace_t *ltrace;
 extern char prefix[MAX_PREFIX_LEN];
