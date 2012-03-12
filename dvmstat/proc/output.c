@@ -76,23 +76,19 @@ int configure_output(char *arg) {
 	static int prefix_flag = 1;
 
 	logpool_init(LOGPOOL_DEFAULT);
-
 	if(arg == NULL) {
-		if(ltrace == NULL) ltrace = ltrace_open_string_data32(NULL);
+		if(ltrace != NULL) return 0;
 		if(prefix_flag) make_prefix();
 		prefix_flag = 0;
+		return 1;
 	}
 	else {
-		char opt_log_stderr[] = "-log=stderr";
 		char opt_log_syslog[] = "-log=syslog";
 		char opt_log_file[] = "-log=file";
 		char opt_log_memcached[] = "-log=memcached";
 		char opt_prefix[] = "-prefix=";
 
-		if(strncmp(arg, opt_log_stderr, OPT_LOG_STDERR_LEN) == 0) {
-			if(ltrace == NULL) ltrace = ltrace_open_string_data32(NULL);
-		}
-		else if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
+		if(strncmp(arg, opt_log_syslog, OPT_LOG_SYSLOG_LEN) == 0) {
 			if(ltrace == NULL) ltrace = ltrace_open_syslog_data32(NULL);
 		}
 		else if(strncmp(arg, opt_log_file, OPT_LOG_FILE_LEN) == 0) {
