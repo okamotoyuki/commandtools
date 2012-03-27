@@ -77,8 +77,8 @@ int configure_output(char *arg) {
 
 	logpool_init(LOGPOOL_DEFAULT);
 	if(arg == NULL) {
-		if(ltrace != NULL) return 0;
 		if(prefix_flag) make_prefix();
+		if(ltrace != NULL) return 0;
 		prefix_flag = 0;
 		return 1;
 	}
