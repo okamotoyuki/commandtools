@@ -227,26 +227,26 @@ static void new_format(void) {
   }
   else {
 	  L_RECORD(
-			  LOG_i("procs_r", running),
-			  LOG_i("procs_b", blocked),
-			  LOG_i("memory_swpd", unitConvert(kb_swap_used)),
-			  LOG_i("memory_free", unitConvert(kb_main_free)),
-			  a_option?
-			  LOG_i("memory_inact", unitConvert(kb_inactive)):
-			  LOG_i("memory_buff", unitConvert(kb_main_buffers)),
-			  a_option?
-			  LOG_i("memory_active", unitConvert(kb_active)):
-			  LOG_i("memory_cache", unitConvert(kb_main_cached)),
-			  LOG_i("swap_si", (unsigned)( (*pswpin  * unitConvert(kb_per_page) * hz + divo2) / Div )),
-			  LOG_i("swap_so", (unsigned)( (*pswpout * unitConvert(kb_per_page) * hz + divo2) / Div )),
-			  LOG_i("io_bi", (unsigned)( (*pgpgin                * hz + divo2) / Div )),
-			  LOG_i("io_bo", (unsigned)( (*pgpgout               * hz + divo2) / Div )),
-			  LOG_i("system_in", (unsigned)( (*intr                  * hz + divo2) / Div )),
-			  LOG_i("system_cs", (unsigned)( (*ctxt                  * hz + divo2) / Div )),
-			  LOG_i("cpu_us", (unsigned)( (100*duse                    + divo2) / Div )),
-			  LOG_i("cpu_sy", (unsigned)( (100*dsys                    + divo2) / Div )),
-			  LOG_i("cpu_id", (unsigned)( (100*didl                    + divo2) / Div )),
-			  LOG_i("cpu_wa", (unsigned)( (100*diow                    + divo2) / Div )),
+			  KEYVALUE_u("procs_r", running),
+			  KEYVALUE_u("procs_b", blocked),
+			  KEYVALUE_u("memory_swpd", unitConvert(kb_swap_used)),
+			  KEYVALUE_u("memory_free", unitConvert(kb_main_free)),
+//			  a_option?
+//			  KEYVALUE_u("memory_inact", unitConvert(kb_inactive)),
+//			  KEYVALUE_u("memory_buff", unitConvert(kb_main_buffers)),
+//			  a_option?
+//			  KEYVALUE_u("memory_active", unitConvert(kb_active)),
+//			  KEYVALUE_u("memory_cache", unitConvert(kb_main_cached)),
+//			  KEYVALUE_u("swap_si", (unsigned)( (*pswpin  * unitConvert(kb_per_page) * hz + divo2) / Div )),
+//			  KEYVALUE_u("swap_so", (unsigned)( (*pswpout * unitConvert(kb_per_page) * hz + divo2) / Div )),
+//			  KEYVALUE_u("io_bi", (unsigned)( (*pgpgin                * hz + divo2) / Div )),
+//			  KEYVALUE_u("io_bo", (unsigned)( (*pgpgout               * hz + divo2) / Div )),
+//			  KEYVALUE_u("system_in", (unsigned)( (*intr                  * hz + divo2) / Div )),
+//			  KEYVALUE_u("system_cs", (unsigned)( (*ctxt                  * hz + divo2) / Div )),
+			  KEYVALUE_u("cpu_us", (unsigned)( (100*duse                    + divo2) / Div )),
+			  KEYVALUE_u("cpu_sy", (unsigned)( (100*dsys                    + divo2) / Div )),
+//			  KEYVALUE_u("cpu_id", (unsigned)( (100*didl                    + divo2) / Div )),
+//			  KEYVALUE_u("cpu_wa", (unsigned)( (100*diow                    + divo2) / Div )),
 			  LOG_END
 			  );
   }
@@ -303,26 +303,26 @@ static void new_format(void) {
 	}
 	else {
 	    L_RECORD(
-				LOG_i("procs_r", running),
-				LOG_i("procs_b", blocked),
-				LOG_i("memory_swpd", unitConvert(kb_swap_used)),
-				LOG_i("memory_free", unitConvert(kb_main_free)),
-				a_option?
-				LOG_i("memory_inact", unitConvert(kb_inactive)):
-				LOG_i("memory_buff", unitConvert(kb_main_buffers)),
-				a_option?
-				LOG_i("memory_active", unitConvert(kb_active)):
-				LOG_i("memory_cache", unitConvert(kb_main_cached)),
-				LOG_i("swap_si", (unsigned)( ( (pswpin [tog] - pswpin [!tog])*unitConvert(kb_per_page)+sleep_half )/sleep_time )),
-				LOG_i("swap_so", (unsigned)( ( (pswpout[tog] - pswpout[!tog])*unitConvert(kb_per_page)+sleep_half )/sleep_time )),
-				LOG_i("io_bi", (unsigned)( (  pgpgin [tog] - pgpgin [!tog]             +sleep_half )/sleep_time )),
-				LOG_i("io_bo", (unsigned)( (  pgpgout[tog] - pgpgout[!tog]             +sleep_half )/sleep_time )),
-				LOG_i("system_in", (unsigned)( (  ctxt   [tog] - ctxt   [!tog]             +sleep_half )/sleep_time )),
-				LOG_i("system_cs", (unsigned)( (  ctxt   [tog] - ctxt   [!tog]             +sleep_half )/sleep_time )),
-				LOG_i("cpu_us", (unsigned)( (100*duse+divo2)/Div )),
-				LOG_i("cpu_sy", (unsigned)( (100*dsys+divo2)/Div )),
-				LOG_i("cpu_id", (unsigned)( (100*didl+divo2)/Div )),
-				LOG_i("cpu_wa", (unsigned)( (100*diow+divo2)/Div )),
+				KEYVALUE_u("procs_r", running),
+				KEYVALUE_u("procs_b", blocked),
+				KEYVALUE_u("memory_swpd", unitConvert(kb_swap_used)),
+				KEYVALUE_u("memory_free", unitConvert(kb_main_free)),
+		//		a_option?
+		//		KEYVALUE_u("memory_inact", unitConvert(kb_inactive)):
+		//		KEYVALUE_u("memory_buff", unitConvert(kb_main_buffers)),
+		//		a_option?
+		//		KEYVALUE_u("memory_active", unitConvert(kb_active)):
+		//		KEYVALUE_u("memory_cache", unitConvert(kb_main_cached)),
+		//		KEYVALUE_u("swap_si", (unsigned)( ( (pswpin [tog] - pswpin [!tog])*unitConvert(kb_per_page)+sleep_half )/sleep_time )),
+		//		KEYVALUE_u("swap_so", (unsigned)( ( (pswpout[tog] - pswpout[!tog])*unitConvert(kb_per_page)+sleep_half )/sleep_time )),
+		//		KEYVALUE_u("io_bi", (unsigned)( (  pgpgin [tog] - pgpgin [!tog]             +sleep_half )/sleep_time )),
+		//		KEYVALUE_u("io_bo", (unsigned)( (  pgpgout[tog] - pgpgout[!tog]             +sleep_half )/sleep_time )),
+		//		KEYVALUE_u("system_in", (unsigned)( (  ctxt   [tog] - ctxt   [!tog]             +sleep_half )/sleep_time )),
+		//		KEYVALUE_u("system_cs", (unsigned)( (  ctxt   [tog] - ctxt   [!tog]             +sleep_half )/sleep_time )),
+				KEYVALUE_u("cpu_us", (unsigned)( (100*duse+divo2)/Div )),
+				KEYVALUE_u("cpu_sy", (unsigned)( (100*dsys+divo2)/Div )),
+		//		KEYVALUE_u("cpu_id", (unsigned)( (100*didl+divo2)/Div )),
+		//		KEYVALUE_u("cpu_wa", (unsigned)( (100*diow+divo2)/Div )),
 				LOG_END
 					);
 	}
@@ -347,8 +347,8 @@ static int diskpartition_format(const char* partition_name){
     fDiskstat=fopen("/proc/diskstats","rb");
     if(!fDiskstat){
         fprintf(stderr, "Your kernel doesn't support diskstat. (2.5.70 or above required)\n"); 
+        if(lp != NULL) logpool_close(lp);
         exit(EXIT_FAILURE);
-        if(ltrace != NULL) ltrace_close(ltrace);
     }
 
     fclose(fDiskstat);
@@ -369,10 +369,10 @@ static int diskpartition_format(const char* partition_name){
 	}
 	else {
 	    L_RECORD(
-				LOG_i("reads", current_partition->reads),
-				LOG_i("read_sectors", current_partition->reads_sectors),
-				LOG_i("writes", current_partition->writes),
-				LOG_i("requested_writes", current_partition->requested_writes),
+				KEYVALUE_u("reads", current_partition->reads),
+				KEYVALUE_u("read_sectors", current_partition->reads_sectors),
+				KEYVALUE_u("writes", current_partition->writes),
+				KEYVALUE_u("requested_writes", current_partition->requested_writes),
 				LOG_END
 				);
 	}
@@ -399,10 +399,10 @@ static int diskpartition_format(const char* partition_name){
 		}
 		else {
 	        L_RECORD(
-					LOG_i("reads", current_partition->reads),
-					LOG_i("read_sectors", current_partition->reads_sectors),
-					LOG_i("writes", current_partition->writes),
-					LOG_i("requested_writes", current_partition->requested_writes),
+					KEYVALUE_u("reads", current_partition->reads),
+					KEYVALUE_u("read_sectors", current_partition->reads_sectors),
+					KEYVALUE_u("writes", current_partition->writes),
+					KEYVALUE_u("requested_writes", current_partition->requested_writes),
 					LOG_END
 					);
 		}
@@ -454,17 +454,17 @@ static void diskformat(void){
 	 }
 	 else {
 	     L_RECORD(
-				 LOG_i("disk", disks[k].disk_name),
-				 LOG_i("reads_total", disks[k].reads),
-				 LOG_i("reads_merged", disks[k].merged_reads),
-				 LOG_i("reads_sectors", disks[k].reads_sectors),
-				 LOG_i("reads_ms", disks[k].milli_reading),
-				 LOG_i("writes_total", disks[k].writes),
-				 LOG_i("writes_merged", disks[k].merged_writes),
-				 LOG_i("writes_sectors", disks[k].written_sectors),
-				 LOG_i("writes_ms", disks[k].milli_writing),
-				 LOG_i("IO_cur", disks[k].inprogress_IO?disks[k].inprogress_IO/1000:0),
-				 LOG_i("IO_sec", disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0),
+				 KEYVALUE_u("disk", disks[k].disk_name),
+				 KEYVALUE_u("reads_total", disks[k].reads),
+				 KEYVALUE_u("reads_merged", disks[k].merged_reads),
+				 KEYVALUE_u("reads_sectors", disks[k].reads_sectors),
+				 KEYVALUE_u("reads_ms", disks[k].milli_reading),
+				 KEYVALUE_u("writes_total", disks[k].writes),
+				 KEYVALUE_u("writes_merged", disks[k].merged_writes),
+				 KEYVALUE_u("writes_sectors", disks[k].written_sectors),
+				 KEYVALUE_u("writes_ms", disks[k].milli_writing),
+				 KEYVALUE_u("IO_cur", disks[k].inprogress_IO?disks[k].inprogress_IO/1000:0),
+				 KEYVALUE_u("IO_sec", disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0),
 				 LOG_END
 				 );
 	 }
@@ -495,17 +495,17 @@ static void diskformat(void){
 		}
 		else {
 	        L_RECORD(
-				 LOG_i("disk", disks[k].disk_name),
-				 LOG_i("reads_total", disks[k].reads),
-				 LOG_i("reads_merged", disks[k].merged_reads),
-				 LOG_i("reads_sectors", disks[k].reads_sectors),
-				 LOG_i("reads_ms", disks[k].milli_reading),
-				 LOG_i("writes_total", disks[k].writes),
-				 LOG_i("writes_merged", disks[k].merged_writes),
-				 LOG_i("writes_sectors", disks[k].written_sectors),
-				 LOG_i("writes_ms", disks[k].milli_writing),
-				 LOG_i("IO_cur", disks[k].inprogress_IO?disks[k].inprogress_IO/1000:0),
-				 LOG_i("IO_sec", disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0),
+				 KEYVALUE_u("disk", disks[k].disk_name),
+				 KEYVALUE_u("reads_total", disks[k].reads),
+				 KEYVALUE_u("reads_merged", disks[k].merged_reads),
+				 KEYVALUE_u("reads_sectors", disks[k].reads_sectors),
+				 KEYVALUE_u("reads_ms", disks[k].milli_reading),
+				 KEYVALUE_u("writes_total", disks[k].writes),
+				 KEYVALUE_u("writes_merged", disks[k].merged_writes),
+				 KEYVALUE_u("writes_sectors", disks[k].written_sectors),
+				 KEYVALUE_u("writes_ms", disks[k].milli_writing),
+				 KEYVALUE_u("IO_cur", disks[k].inprogress_IO?disks[k].inprogress_IO/1000:0),
+				 KEYVALUE_u("IO_sec", disks[k].milli_spent_IO?disks[k].milli_spent_IO/1000:0),
 				 LOG_END
 				 );
 		}
@@ -516,7 +516,7 @@ static void diskformat(void){
     }
   }else{
     fprintf(stderr, "Your kernel doesn't support diskstat (2.5.70 or above required)\n"); 
-    if(ltrace != NULL) ltrace_close(ltrace);
+    if(lp != NULL) logpool_close(lp);
     exit(EXIT_FAILURE);
   } 
 }
@@ -555,11 +555,11 @@ static void slabformat (void){
 	}
 	else {
 	    L_RECORD(
-				LOG_i("Cache", slabs[k].name),
-				LOG_i("Num", slabs[k].active_objs),
-				LOG_i("Total", slabs[k].num_objs),
-				LOG_i("Size", slabs[k].objsize),
-				LOG_i("Pages", slabs[k].objperslab),
+				KEYVALUE_u("Cache", slabs[k].name),
+				KEYVALUE_u("Num", slabs[k].active_objs),
+				KEYVALUE_u("Total", slabs[k].num_objs),
+				KEYVALUE_u("Size", slabs[k].objsize),
+				KEYVALUE_u("Pages", slabs[k].objperslab),
 				LOG_END
 				);
 	}
@@ -581,11 +581,11 @@ static void slabformat (void){
 	  }
 	  else {
 	      L_RECORD(
-				LOG_i("Cache", slabs[k].name),
-				LOG_i("Num", slabs[k].active_objs),
-				LOG_i("Total", slabs[k].num_objs),
-				LOG_i("Size", slabs[k].objsize),
-				LOG_i("Pages", slabs[k].objperslab),
+				KEYVALUE_u("Cache", slabs[k].name),
+				KEYVALUE_u("Num", slabs[k].active_objs),
+				KEYVALUE_u("Total", slabs[k].num_objs),
+				KEYVALUE_u("Size", slabs[k].objsize),
+				KEYVALUE_u("Pages", slabs[k].objperslab),
 				LOG_END
 				);
 	  }
@@ -619,8 +619,8 @@ static void disksum_format(void) {
 	}
 	else {
 	    L_RECORD(
-			LOG_i("disks", ndisks),
-			LOG_i("partitions", getpartitions_num(disks, ndisks)),
+			KEYVALUE_u("disks", ndisks),
+			KEYVALUE_u("partitions", getpartitions_num(disks, ndisks)),
 			LOG_END
 	        );
 	}
@@ -651,16 +651,16 @@ static void disksum_format(void) {
 	}
 	else {
 	    L_RECORD(
-			LOG_i("total reads",reads),
-			LOG_i("merged reads",merged_reads),
-			LOG_i("read sectors",read_sectors),
-			LOG_i("milli reading",milli_reading),
-			LOG_i("writes",writes),
-			LOG_i("merged writes",merged_writes),
-			LOG_i("written sectors",written_sectors),
-			LOG_i("milli writing",milli_writing),
-			LOG_i("inprogress IO",inprogress_IO),
-			LOG_i("milli spent IO",milli_spent_IO),
+			KEYVALUE_u("total reads",reads),
+			KEYVALUE_u("merged reads",merged_reads),
+			KEYVALUE_u("read sectors",read_sectors),
+			KEYVALUE_u("milli reading",milli_reading),
+			KEYVALUE_u("writes",writes),
+			KEYVALUE_u("merged writes",merged_writes),
+			KEYVALUE_u("written sectors",written_sectors),
+			KEYVALUE_u("milli writing",milli_writing),
+			KEYVALUE_u("inprogress IO",inprogress_IO),
+			KEYVALUE_u("milli spent IO",milli_spent_IO),
 			LOG_END
 	        );
 	}
@@ -716,32 +716,32 @@ static void sum_format(void) {
   }
   else {
 	  L_RECORD(
-			LOG_i("total memory", unitConvert(kb_main_total)),
-			LOG_i("used memory", unitConvert(kb_main_used)),
-			LOG_i("active memory", unitConvert(kb_active)),
-			LOG_i("inactive memory", unitConvert(kb_inactive)),
-			LOG_i("free memory", unitConvert(kb_main_free)),
-			LOG_i("buffer memory", unitConvert(kb_main_buffers)),
-			LOG_i("swap cache", unitConvert(kb_main_cached)),
-			LOG_i("total swap", unitConvert(kb_swap_total)),
-			LOG_i("used swap", unitConvert(kb_swap_used)),
-			LOG_i("free swap", unitConvert(kb_swap_free)),
-			LOG_i("non-nice user cpu ticks", cpu_use),
-			LOG_i("nice user cpu ticks", cpu_nic),
-			LOG_i("system cpu ticks", cpu_sys),
-			LOG_i("idle cpu ticks", cpu_idl),
-			LOG_i("IO-wait cpu ticks", cpu_iow),
-			LOG_i("IRQ cpu ticks", cpu_xxx),
-			LOG_i("softirq cpu ticks", cpu_yyy),
-			LOG_i("stolen cpu ticks", cpu_zzz),
-			LOG_i("pages paged in", pgpgin),
-			LOG_i("pages paged out", pgpgout),
-			LOG_i("pages swapped in", pswpin),
-			LOG_i("pages swapped out", pswpout),
-			LOG_i("interrupts", intr),
-			LOG_i("CPU context switches", ctxt),
-			LOG_i("boot time", btime),
-			LOG_i("forks", processes),
+			KEYVALUE_u("total memory", unitConvert(kb_main_total)),
+			KEYVALUE_u("used memory", unitConvert(kb_main_used)),
+			KEYVALUE_u("active memory", unitConvert(kb_active)),
+			KEYVALUE_u("inactive memory", unitConvert(kb_inactive)),
+			KEYVALUE_u("free memory", unitConvert(kb_main_free)),
+			KEYVALUE_u("buffer memory", unitConvert(kb_main_buffers)),
+			KEYVALUE_u("swap cache", unitConvert(kb_main_cached)),
+			KEYVALUE_u("total swap", unitConvert(kb_swap_total)),
+			KEYVALUE_u("used swap", unitConvert(kb_swap_used)),
+			KEYVALUE_u("free swap", unitConvert(kb_swap_free)),
+			KEYVALUE_u("non-nice user cpu ticks", cpu_use),
+			KEYVALUE_u("nice user cpu ticks", cpu_nic),
+			KEYVALUE_u("system cpu ticks", cpu_sys),
+			KEYVALUE_u("idle cpu ticks", cpu_idl),
+			KEYVALUE_u("IO-wait cpu ticks", cpu_iow),
+			KEYVALUE_u("IRQ cpu ticks", cpu_xxx),
+			KEYVALUE_u("softirq cpu ticks", cpu_yyy),
+			KEYVALUE_u("stolen cpu ticks", cpu_zzz),
+			KEYVALUE_u("pages paged in", pgpgin),
+			KEYVALUE_u("pages paged out", pgpgout),
+			KEYVALUE_u("pages swapped in", pswpin),
+			KEYVALUE_u("pages swapped out", pswpout),
+			KEYVALUE_u("interrupts", intr),
+			KEYVALUE_u("CPU context switches", ctxt),
+			KEYVALUE_u("boot time", btime),
+			KEYVALUE_u("forks", processes),
 			LOG_END
 	        );
   }
@@ -765,7 +765,7 @@ static void fork_format(void) {
   if(stdout_flag) printf("%13u forks\n", processes);
   else {
 	  L_RECORD(
-			  LOG_i("forks", processes),
+			  KEYVALUE_u("forks", processes),
 			  LOG_END
 			  );
   }
@@ -788,15 +788,16 @@ static int winhi(void) {
 int main(int argc, char *argv[]) {
   char partition[16];
   argc=0; /* redefined as number of integer arguments */
+  logpool_init(LOGPOOL_TRACE);
   for (argv++;*argv;argv++) {
     if ('-' ==(**argv)) {
       switch (*(++(*argv))) {
       case '-':
-		  if(configure_output(*argv)) usage();
+		  if(configureLogPool(*argv)) usage();
 		  break;
       case 'V':
 	display_version();
-	if(ltrace != NULL) ltrace_close(ltrace);
+	if(lp != NULL) logpool_close(lp);
 	exit(0);
       case 'd':
 	statMode |= DISKSTAT;
@@ -808,7 +809,7 @@ int main(int argc, char *argv[]) {
       case 'f':
         // FIXME: check for conflicting args
 	fork_format();
-	if(ltrace != NULL) ltrace_close(ltrace);
+	if(lp != NULL) logpool_close(lp);
         exit(0);
       case 'm':
         statMode |= SLABSTAT; 	
@@ -828,7 +829,7 @@ int main(int argc, char *argv[]) {
 	  snprintf(partition, sizeof partition, "%s", cp);
 	}else{
 	  fprintf(stderr, "-p requires an argument\n");
-	  if(ltrace != NULL) ltrace_close(ltrace);
+	  if(lp != NULL) logpool_close(lp);
           exit(EXIT_FAILURE);
 	}
         break;
@@ -840,12 +841,12 @@ int main(int argc, char *argv[]) {
 	 	else if (!strcmp(*argv, "m")) dataUnit=UNIT_m;
 	 	else if (!strcmp(*argv, "M")) dataUnit=UNIT_M;
 		else {fprintf(stderr, "-S requires k, K, m or M (default is kb)\n");
-			if(ltrace != NULL) ltrace_close(ltrace);
+			if(lp != NULL) logpool_close(lp);
 		     exit(EXIT_FAILURE);
 		}
 		strcpy(szDataUnit, *argv);
 	 }else {fprintf(stderr, "-S requires an argument\n");
-		if(ltrace != NULL) ltrace_close(ltrace);
+		if(lp != NULL) logpool_close(lp);
 		exit(EXIT_FAILURE);
 	 }
 	break;
@@ -872,7 +873,9 @@ int main(int argc, char *argv[]) {
       } /* switch */
   }
 }
-  if(configure_output(NULL)) stdout_flag = 1;
+
+  if(!lp) configureLogPool(NULL);
+
   if (moreheaders) {
       int tmp=winhi()-3;
       height=((tmp>0)?tmp:22);
@@ -895,8 +898,6 @@ int main(int argc, char *argv[]) {
 	default:	     usage();
 			     break;
   }
-  if(ltrace != NULL) ltrace_close(ltrace);
+  if(lp != NULL) logpool_close(lp);
   return 0;
 }
-
-

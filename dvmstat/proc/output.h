@@ -2,13 +2,21 @@
 
 #include <logpool.h>
 
-#define MAX_PREFIX_LEN 64
+#define LOG_END 0
+#define LOG_s   1
+#define LOG_u   2
 
-extern ltrace_t *ltrace;
-extern char prefix[MAX_PREFIX_LEN];
+#define KEYVALUE_u(K,V)    LOG_u, (K), ((uintptr_t)V)
+#define KEYVALUE_s(K,V)    LOG_s, (K), (V)
 
-extern int configure_output(char *arg);
+extern logpool_t *lp;
+extern void *lp_args;
+extern int context;
 
-#define L_RECORD(...) do { \
-	ltrace_record(ltrace, prefix , __VA_ARGS__); \
-} while(0)
+extern int configureLogPool(char *arg);
+
+#define L_RECORD(...) \
+	logpool_record(lp, &lp_args, LOG_NOTICE, "dvmstat", \
+			__VA_ARGS__);
+
+//	KEYVALUE_s("context", context), \
