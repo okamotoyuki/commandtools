@@ -788,7 +788,7 @@ static int winhi(void) {
 int main(int argc, char *argv[]) {
   char partition[16];
   argc=0; /* redefined as number of integer arguments */
-  logpool_init(LOGPOOL_TRACE);
+  logpool_global_init(LOGPOOL_TRACE);
   for (argv++;*argv;argv++) {
     if ('-' ==(**argv)) {
       switch (*(++(*argv))) {
